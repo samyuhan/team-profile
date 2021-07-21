@@ -102,17 +102,17 @@ const employeeQuestions = () => {
         })
 };
 
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, (err) => {
-        err ? console.log(err) : console.log('Your team profile is now complete!')
-    });
-}
+const writeToFile = data => {
+    fs.writeFile('./dist/index.html', data, err => {
+        err ? console.log(err) : console.log('Your team profile is now complete!');
+    })
+}; 
 
 managerQuestions()
     .then(employeeQuestions) 
     .then(team => {
         return generate(team);
     })
-    .then(script => {
-        return writeToFile(script);
+    .then(pageHTML => {
+        return writeToFile(pageHTML);
     })
