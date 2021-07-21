@@ -4,6 +4,7 @@ const fs = require('fs');
 const Manager = require('./lib/Manager.js');
 const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
+const generate = require('./src/generate')
 const team = [];
 
 // Questions to ask 
@@ -101,4 +102,17 @@ const employeeQuestions = () => {
         })
 };
 
-managerQuestions();
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, (err) => {
+        err ? console.log(err) : console.log('Your team profile is now complete!')
+    });
+}
+
+managerQuestions()
+    .then(employeeQuestions) 
+    .then(team => {
+        return generate(team);
+    })
+    .then(script => {
+        return writeToFile(script);
+    })
